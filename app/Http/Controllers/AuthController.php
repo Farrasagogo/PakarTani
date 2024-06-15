@@ -55,36 +55,4 @@ class AuthController extends Controller
         return response()->json(auth()->user());
     }
 
-    // Methods for web-based registration and login
-    public function registerWeb(Request $request)
-    {
-        $this->validate($request, [
-            'username' => 'required|string|unique:pengguna',
-            'password' => 'required|string|confirmed',
-            'alamat' => 'required|string',
-            'email' => 'required|string|email|unique:pengguna',
-        ]);
-
-        $pengguna = User::create([
-            'username' => $request->username,
-            'password' => Hash::make($request->password),
-            'alamat' => $request->alamat,
-            'email' => $request->email,
-        ]);
-
-        return redirect()->route('login')->with('success', 'Registration successful. Please login.');
-    }
-
-    public function loginWeb(Request $request)
-    {
-        $credentials = $request->only('username', 'password');
-
-        if (!$token = JWTAuth::attempt($credentials)) {
-            return redirect()->route('login')->withErrors(['error' => 'Invalid credentials']);
-        }
-
-        $request->session()->put('jwt_token', $token);
-
-        return redirect()->route('home');
-    }
 }

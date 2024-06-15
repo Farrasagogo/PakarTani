@@ -5,9 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Middleware\JwtMiddleware;
 use App\Http\Controllers\WeatherController;
 
-Route::get('/login', function () {
-    return view('login');
-})->name('login');
+
 
 Route::get('/register', function () {
     return view('register');
@@ -33,6 +31,9 @@ Route::get('/contact', function () {
 Route::get('/weather', function () {
     return view('weather');
 })->name('weather');
+Route::get('/croprecommendation', function () {
+    return view('croprecommendation');
+})->name('croprecommendation');
 
 
 
@@ -54,5 +55,5 @@ Route::middleware(['jwt.verify'])->group(function () {
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('login');
 });
