@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MarketPriceController;
 use App\Http\Controllers\InformasiTanamanController;
+use App\Http\Controllers\WeatherController;
+
 
 
 Route::post('register', [AuthController::class, 'register']);
@@ -18,6 +20,8 @@ Route::middleware('auth:api')->group(function () {
     Route::get('marketprices/{id}', [MarketPriceController::class, 'show']);
     Route::get('tanamans', [InformasiTanamanController::class, 'index']);
     Route::get('tanamans/{id}', [InformasiTanamanController::class, 'show']);
+    Route::get('/weather/{location}', [WeatherController::class, 'fetchWeather']);
+
 });
 
 /*

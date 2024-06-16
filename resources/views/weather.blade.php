@@ -31,7 +31,7 @@ style="background-image: url('{{ asset('image/elaine-casap-qgHGDbbSNm8-unsplash.
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        fetchWeather('Jember');  
+        fetchWeather('Jakarta');  
     });
 
     document.getElementById('searchButton').addEventListener('click', function() {
@@ -39,20 +39,23 @@ style="background-image: url('{{ asset('image/elaine-casap-qgHGDbbSNm8-unsplash.
         if (location) {
             fetchWeather(location);
         } else {
-            fetchWeather('Jember'); // Default location
+            fetchWeather('Jakarta'); // Default location
         }
     });
 
     function fetchWeather(location) {
-        const apiKey = '3ba66a0becc007620c72f67d2c5c8bc1';
-        const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(location)}&appid=${apiKey}&units=metric`;
+        const url = `api/weather/${encodeURIComponent(location)}`;
 
         $.ajax({
             url: url,
             type: 'GET',
+            headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                },
             success: function(data) {
-                if (data.cod !== 200) {
-                    alert(data.message);
+                if (data.error) {
+                    alert(data.error);
                 } else {
                     $('#weatherCard').show();
                     $('#weatherIcon').attr('src', `http://openweathermap.org/img/wn/${data.weather[0].icon}.png`);
